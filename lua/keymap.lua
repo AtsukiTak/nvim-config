@@ -17,7 +17,6 @@ vim.api.nvim_set_keymap('n', '<C-q>', ':bp|bd #<CR>', opts)
 -- その他
 vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>', opts)
 vim.api.nvim_set_keymap('', '<C-j>', '<ESC>', opts)
-vim.api.nvim_set_keymap('n', 'qq', ':call rustfmt#Format()<CR>', opts)
 
 -- telescope
 vim.keymap.set('n', '<space>ff', require('telescope.builtin').find_files, opts)
