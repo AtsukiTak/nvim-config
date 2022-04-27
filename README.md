@@ -17,3 +17,4 @@ plugin は `~/.local/share/nvim/site/pack/default/{start,opt}` に配置する�
 
 - nvim-lspconfig
 - rust.vim
+- vim-prettier
