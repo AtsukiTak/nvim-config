@@ -10,9 +10,11 @@ plugin は `~/.local/share/nvim/site/pack/default/{start,opt}` に配置する�
 
 ### start
 
+- nvim-lspconfig
+- rust-tools.nvim
+- barbar.nvim
 
 ### opt
 
-- nvim-lspconfig
 - rust.vim
 - vim-prettier
