@@ -53,7 +53,8 @@ require'rust-tools'.setup {
 -- ## "barbar.vim" の設定
 require'bufferline'.setup {
   icons = 'numbers',
-  closable = false
+  closable = false,
+  insert_at_end = true
 }
 vim.cmd[[hi BufferVisible ctermfg=250 ctermbg=253]]
 vim.cmd[[hi BufferVisibleIndex ctermfg=250 ctermbg=253]]
