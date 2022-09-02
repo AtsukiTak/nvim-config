@@ -55,3 +55,8 @@ require'bufferline'.setup {
   icons = 'numbers',
   closable = false
 }
+vim.cmd[[hi BufferVisible ctermfg=250 ctermbg=253]]
+vim.cmd[[hi BufferVisibleIndex ctermfg=250 ctermbg=253]]
+vim.cmd[[hi BufferVisibleSign ctermfg=250 ctermbg=253]]
+vim.cmd[[hi BufferVisibleMod ctermbg=253]]
+vim.cmd[[hi BufferVisibleTarget ctermbg=253]]
