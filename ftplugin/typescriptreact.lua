@@ -1,5 +1,5 @@
 vim.cmd('packadd vim-prettier')
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap=true, silent=true, buffer=true }
 
-vim.api.nvim_set_keymap('n', 'qq', ':PrettierAsync<CR>', opts)
+vim.keymap.set('n', 'qq', ':PrettierAsync<CR>', opts)
