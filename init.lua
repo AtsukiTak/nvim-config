@@ -9,6 +9,11 @@ vim.o.softtabstop = 2
 vim.o.autoindent = true
 vim.o.expandtab = true -- tabを入力した時にspaceで代替する
 vim.o.list = true -- tab文字などを可視化する
+-- 高速化のための設定
+vim.o.showcmd = false
+vim.o.ruler = false
+vim.o.scrolljump = 5
+vim.o.lazyredraw = true
 
 vim.cmd("colorscheme molokai")
 
@@ -17,7 +22,6 @@ local kmap_opts = { noremap=true, silent=true }
 
 -- カーソル移動系
 vim.api.nvim_set_keymap('', '<S-h>', '^', kmap_opts)
-vim.api.nvim_set_keymap('', '<C-a>', '^', kmap_opts)
 vim.api.nvim_set_keymap('', '<S-l>', '$', kmap_opts)
 vim.api.nvim_set_keymap('', '<C-e>', '$', kmap_opts)
 
@@ -45,7 +49,14 @@ require'rust-tools'.setup {
     on_attach = function (client, bufnr)
       vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', kmap_opts)
       vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', kmap_opts)
-    end
+    end,
+    settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          features = "all"
+        }
+      }
+    }
   }
 }
 
@@ -61,3 +72,9 @@ vim.cmd[[hi BufferVisibleIndex ctermfg=250 ctermbg=253]]
 vim.cmd[[hi BufferVisibleSign ctermfg=250 ctermbg=253]]
 vim.cmd[[hi BufferVisibleMod ctermbg=253]]
 vim.cmd[[hi BufferVisibleTarget ctermbg=253]]
+-- 新しいタブを開いた時に毎回re-orderする
+vim.api.nvim_create_augroup( 'barbarnvim', {} )
+vim.api.nvim_create_autocmd( 'BufCreate', {
+  group = 'barbarnvim',
+  command = 'BufferOrderByBufferNumber',
+})
