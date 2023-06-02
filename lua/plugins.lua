@@ -14,6 +14,12 @@ vim.cmd[[hi BufferVisibleTarget ctermbg=253]]
 vim.cmd[[au BufRead * BufferOrderByBufferNumber]]
 
 
+-- Copilotの設定
+-- Copilotはnode 17以下でないと動かない。プロジェクトによっては18以降のバージョンを使用しているので、
+-- Copilot用のnodeは明示的にパスを指定する。
+vim.g.copilot_node_command = '/Users/takahashiatsuki/.nodenv/versions/16.19.0/bin/node'
+
+
 -- TreeSitter関係の設定
 -- NOTE: TreeSitterは特定のバージョンのlanguage parserとのみ協調するので
 -- TreeSitterのバージョンを上げた時は、各種language parserのバージョンも上げる.

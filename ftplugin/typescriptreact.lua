@@ -5,7 +5,11 @@ local opts = { noremap=true, silent=true, buffer=true }
 vim.keymap.set('n', 'qq', ':PrettierAsync<CR>', opts)
 
 -- LSPの設定
-require'lspconfig'.tsserver.setup {}
+require'lspconfig'.tsserver.setup {
+  on_attach = function(client)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  end
+}
 
 require'lspconfig'.diagnosticls.setup {
   filetypes = {
