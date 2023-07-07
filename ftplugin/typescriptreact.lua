@@ -8,6 +8,7 @@ vim.keymap.set('n', 'qq', ':PrettierAsync<CR>', opts)
 require'lspconfig'.tsserver.setup {
   on_attach = function(client)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   end
 }
 
