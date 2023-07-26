@@ -44,9 +44,13 @@ vim.api.nvim_set_keymap('', '<C-j>', '<ESC>', kmap_opts)
 
 
 -- akinsho/bufferline関係の設定
-require'bufferline'.setup {
-  icons = 'numbers',
-  closable = false,
+require'barbar'.setup {
+  icons = {
+    buffer_index = true,
+    filetype = { enabled = false },
+    button = '',
+    modified = { button = '' },
+  },
   insert_at_end = true
 }
 -- 色の設定
@@ -57,6 +61,8 @@ vim.cmd[[hi BufferVisibleMod ctermbg=253]]
 vim.cmd[[hi BufferVisibleTarget ctermbg=253]]
 -- 新しいタブを開いた時に毎回re-orderする
 vim.cmd[[au BufRead * BufferOrderByBufferNumber]]
+-- Clolose buffer
+vim.api.nvim_set_keymap('n', '<C-q>', '<Cmd>BufferClose<CR>', kmap_opts)
 
 
 -- Copilotの設定
