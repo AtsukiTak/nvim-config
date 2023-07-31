@@ -6,6 +6,8 @@ local opts = { noremap=true, silent=true, buffer=true }
 -- keymap
 vim.keymap.set('n', 'qq', ':call rustfmt#Format()<CR>', opts)
 
+-- 保存時にrustfmtを実行する
+vim.g.rustfmt_autosave = 1
 
 -- rust-toolsの設定
 -- rust-toolsはInlay Hintが便利なので入れてる
