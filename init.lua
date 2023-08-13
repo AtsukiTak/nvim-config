@@ -35,8 +35,14 @@ vim.api.nvim_set_keymap('n', '<C-n>', ':bnext<CR>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<C-p>', ':bprev<CR>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<C-q>', ':bp|bd #<CR>', kmap_opts)
 
--- lsp系
+-- CoC関係の設定
+vim.opt.backup = false -- Some servers have issues with backup files, see #649
+vim.opt.writebackup = false
+vim.opt.updatetime = 300 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable delays and poor user experience.
 vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>lua vim.diagnostic.open_float()<CR>', kmap_opts)
+vim.api.nvim_set_keymap('n', 'K', ':call CocActionAsync(\'doHover\')<CR>', kmap_opts)
+vim.api.nvim_set_keymap('n', 'gd', '<Plug>(coc-definition)', kmap_opts)
+vim.api.nvim_set_keymap('n', 'qq', ':call CocAction(\'format\')<CR>', kmap_opts)
 
 -- その他
 vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>', kmap_opts)

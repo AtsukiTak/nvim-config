@@ -1,0 +1,11 @@
+{
+  "suggest": {
+    "autoTrigger": "none"
+  },
+  "rust-analyzer": {
+    "restartServerOnConfigChange": true,
+    "cargo": {
+      "target": null
+    }
+  }
+}
