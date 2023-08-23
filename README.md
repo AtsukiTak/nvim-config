@@ -16,6 +16,7 @@ plugin は `~/.local/share/nvim/site/pack/default/{start,opt}` に配置する�
 - nvim-lspconfig
 - nvim-treesitter
 - rust.vim
+- tree-sitter-wgsl
 - vim-terraform
 
 ### opt

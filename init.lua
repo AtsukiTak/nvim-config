@@ -114,5 +114,16 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
+
 -- treesitterでmouseが有効化されてしまうので無効にする
 vim.cmd[[set mouse=]]
+
+-- WGSL用TreeSitterの設定
+vim.filetype.add({extension = {wgsl = "wgsl"}})
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.wgsl = {
+  install_info = {
+    url = "https://github.com/szebniok/tree-sitter-wgsl",
+    files = {"src/parser.c"}
+  },
+}
