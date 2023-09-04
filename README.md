@@ -21,4 +21,3 @@ plugin は `~/.local/share/nvim/site/pack/default/{start,opt}` に配置する�
 ### opt
 
 - vim-prettier
-- rust-tools.nvim

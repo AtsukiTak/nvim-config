@@ -68,7 +68,7 @@ vim.api.nvim_set_keymap('n', '<C-q>', '<Cmd>BufferClose<CR>', kmap_opts)
 -- Copilotの設定
 -- Copilotはnode 17以下でないと動かない。プロジェクトによっては18以降のバージョンを使用しているので、
 -- Copilot用のnodeは明示的にパスを指定する。
-vim.g.copilot_node_command = '/Users/takahashiatsuki/.nodenv/versions/16.19.0/bin/node'
+vim.g.copilot_node_command = '/Users/takahashiatsuki/.nodenv/versions/17.9.1/bin/node'
 
 
 -- TreeSitter関係の設定
