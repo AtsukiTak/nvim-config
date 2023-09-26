@@ -1,6 +1,10 @@
 vim.cmd("syntax enable")
 vim.cmd("filetype plugin indent on")
 
+-- netrwを無効化する
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.o.number = true
 vim.o.ambiwidth = "double"
 vim.o.tabstop = 2
@@ -9,11 +13,8 @@ vim.o.softtabstop = 2
 vim.o.autoindent = true
 vim.o.expandtab = true -- tabを入力した時にspaceで代替する
 vim.o.list = true -- tab文字などを可視化する
--- 高速化のための設定
 vim.o.showcmd = false
-vim.o.ruler = false
-vim.o.scrolljump = 5
-vim.o.lazyredraw = true
+vim.o.termguicolors = true
 
 vim.cmd("colorscheme molokai")
 
@@ -43,7 +44,7 @@ vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>', kmap_opts)
 vim.api.nvim_set_keymap('', '<C-j>', '<ESC>', kmap_opts)
 
 
--- akinsho/bufferline関係の設定
+-- barbar.nvim関係の設定
 require'barbar'.setup {
   icons = {
     buffer_index = true,
@@ -121,3 +122,8 @@ parser_config.wgsl = {
     files = {"src/parser.c"}
   },
 }
+
+-- nvim-tree.luaの設定
+require("nvim-tree").setup()
+vim.api.nvim_set_keymap('n', '<C-m><C-m>', ':NvimTreeFocus<CR>', kmap_opts)
+vim.api.nvim_set_keymap('n', '<C-m><C-f>', ':NvimTreeFindFile<CR>', kmap_opts)

@@ -14,6 +14,7 @@ plugin は `~/.local/share/nvim/site/pack/default/{start,opt}` に配置する�
 - copilog.vim.git
 - nvim-lspconfig
 - nvim-treesitter
+- nvim-tree.lua
 - rust.vim
 - tree-sitter-wgsl
 - vim-terraform
