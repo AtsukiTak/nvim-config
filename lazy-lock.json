@@ -1,0 +1,11 @@
+{
+  "barbar.nvim": { "branch": "master", "commit": "283bceab39f549c5e5228212661750704fcfcd9e" },
+  "copilot.vim": { "branch": "release", "commit": "998cf5ab1b85e844c7e8edb864a997e590df7182" },
+  "lazy.nvim": { "branch": "main", "commit": "6b55e4695a5e85d862e517bf860bd913a4a45d86" },
+  "nvim-treesitter": { "branch": "master", "commit": "cc2f94ed1dfa008c23e16bbd17f56b967ceb6740" },
+  "nvim-web-devicons": { "branch": "master", "commit": "45d0237c427baba8cd05e0ab26d30e2ee58c2c82" },
+  "plenary.nvim": { "branch": "master", "commit": "9ce85b0f7dcfe5358c0be937ad23e456907d410b" },
+  "rust.vim": { "branch": "master", "commit": "889b9a7515db477f4cb6808bef1769e53493c578" },
+  "telescope-file-browser.nvim": { "branch": "master", "commit": "6e51d0cd6447cf2525412220ff0a2885eef9039c" },
+  "telescope.nvim": { "branch": "master", "commit": "54930e1abfc94409e1bb9266e752ef8379008592" }
+}

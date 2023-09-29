@@ -1,5 +1,3 @@
-vim.cmd[[packadd rust.vim]]
-
 local opts = { noremap=true, silent=true, buffer=true }
 
 -- keymap
@@ -34,14 +32,21 @@ while filepath ~= "" do
   filepath = dir:sub(1, -2) -- 最後の/を削除して次のディレクトリへ（dirが/のときはnilになる）
 end
 
-require('lspconfig').rust_analyzer.setup {
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = {
-        features = {},
-        target = target
-      },
-      checkOnSave = true -- falseにしたときどうなるか確認する
-    }
-  }
-}
+require("lazy").setup({
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require("lspconfig").rust_analyzer.setup {
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              features = {},
+              target = target
+            },
+            checkOnSave = true -- falseにしたときどうなるか確認する
+          }
+        }
+      }
+    end
+  },
+})
