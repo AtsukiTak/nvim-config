@@ -40,6 +40,9 @@ vim.api.nvim_set_keymap('', '<C-j>', '<ESC>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<leader>a"', 'ciw""<ESC>P', kmap_opts) -- カーソル下の単語をダブルクォートで囲む
 vim.api.nvim_set_keymap('n', "<leader>a'", "ciw''<ESC>P", kmap_opts) -- カーソル下の単語をシングルクォートで囲む
 
+-- wgsl filetypeの追加
+vim.filetype.add({extension = {wgsl = "wgsl"}})
+
 -- Lazy.nvimの設定
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -169,73 +172,14 @@ require("lazy").setup({
   },
   {
     "neovim/nvim-lspconfig",
-    ft = {"typescript", "typescriptreact"},
+    ft = {"typescript", "typescriptreact", "rust"},
     config = function()
-      local function open_definition()
-        vim.cmd('vsplit')
-        vim.cmd('wincmd l')
-        vim.cmd('lua vim.lsp.buf.definition()')
+      if vim.bo.filetype == "rust" then
+        require("rust").setup_lsp()
       end
-
-      -- MEMO: neovimからTypescriptのLSPを利用するにはtsserverだけでなく
-      -- typescript-language-serverも必要。これはtsserverがLanguageServerProtocolを
-      -- サポートしていないため。
-      -- プロジェクト事情でtypescript-language-serverをプロジェクトのdependencyに
-      -- 入れられないこともあるので、今はglobalにインストールしている。
-      local opts = { noremap=true, silent=true, buffer=true }
-      require'lspconfig'.tsserver.setup {
-        on_attach = function(client)
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-          vim.keymap.set('n', 'gD', vim.lsp.buf.definition, opts)
-          vim.keymap.set('n', 'gd', open_definition, opts)
-        end
-      }
-    end
-  },
-  {
-    "neovim/nvim-lspconfig",
-    ft = {"rust"},
-    config = function()
-      -- rustのconfigを読み込み、targetを取得する
-      local target = nil
-      local bufnr = vim.api.nvim_get_current_buf()
-      local filepath = vim.api.nvim_buf_get_name(bufnr)
-      while filepath ~= "" do
-        local dir = filepath:match("(.*/)") -- ファイルのディレクトリを取得
-        local config_path = dir .. ".cargo/config.toml"
-        local file = io.open(config_path, "r")
-        if file then
-          while true do -- 1行ずつ読み込む
-            local line = file:read("*l")
-            if line == nil then
-              break
-            end
-            target = line:match('target%s*=%s*"([^"]+)"') -- target = "wasm32-unknown-unknown" のような行を取得
-            if target then
-              break
-            end
-          end
-          file:close()
-        end
-        filepath = dir:sub(1, -2) -- 最後の/を削除して次のディレクトリへ（dirが/のときはnilになる）
+      if vim.bo.filetype == "typescript" or vim.bo.filetype == "typescriptreact" then
+        require("typescript").setup_lsp()
       end
-
-      require("lspconfig").rust_analyzer.setup {
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = {
-              features = {},
-              target = target
-            },
-            checkOnSave = true -- falseにしたときどうなるか確認する
-          }
-        },
-        on_attach = function()
-          local opts = { noremap=true, silent=true, buffer=true }
-          vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-          vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        end
-      }
     end
   },
   {
