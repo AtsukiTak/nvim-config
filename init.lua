@@ -134,9 +134,10 @@ require("lazy").setup({
   {
     "github/copilot.vim",
     config = function()
-      -- Copilotはnode 17以下でないと動かない。プロジェクトによっては18以降のバージョンを使用しているので、
-      -- Copilot用のnodeは明示的にパスを指定する。
-      vim.g.copilot_node_command = '/Users/takahashiatsuki/.nodenv/versions/17.9.1/bin/node'
+      vim.g.copilot_node_command = '/Users/takahashiatsuki/.nodenv/versions/20.7.0/bin/node'
+      -- 新しいBufferが開かれた時に `:Copilot status` を実行する
+      -- 本来これは不要なはずだが、なぜか新規Bufferを開いた時にcopilotがattachされないので実行する.
+      vim.cmd[[au BufRead,BufNewFile * Copilot status]]
     end
   },
   {
@@ -156,38 +157,18 @@ require("lazy").setup({
     end
   },
   {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    config = function()
-      -- 保存時にrustfmtを実行する
-      vim.g.rustfmt_autosave = 1
-      -- keymap
-      local opts = { noremap=true, silent=true, buffer=true }
-      vim.keymap.set('n', 'qq', ':call rustfmt#Format()<CR>', opts)
-    end
-  },
-  {
     "hashivim/vim-terraform",
-    enabled = false,
   },
   {
     "neovim/nvim-lspconfig",
-    ft = {"typescript", "typescriptreact", "rust"},
-    config = function()
-      if vim.bo.filetype == "rust" then
-        require("rust").setup_lsp()
-      end
-      if vim.bo.filetype == "typescript" or vim.bo.filetype == "typescriptreact" then
-        require("typescript").setup_lsp()
-      end
-    end
   },
   {
     "prettier/vim-prettier",
-    ft = {"typescript", "typescriptreact", "javascript"},
-    config = function()
-      vim.keymap.set('n', 'qq', ':PrettierAsync<CR>', opts)
-    end
+    lazy = true,
+  },
+  {
+    "rust-lang/rust.vim",
+    lazy = true,
   }
 })
 

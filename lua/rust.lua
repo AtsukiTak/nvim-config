@@ -29,18 +29,21 @@ local function setup_lsp()
     settings = {
       ["rust-analyzer"] = {
         cargo = {
-          features = {},
           target = get_target()
         },
         checkOnSave = true -- falseにしたときどうなるか確認する
       }
     },
     on_attach = function()
+      print("rust lsp on_attach")
       local opts = { noremap=true, silent=true, buffer=true }
       vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
       vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     end
   }
+  -- :LspStart の実行
+  -- 本来これがなくてもLSPが起動するはずだが、なぜか起動しないので一応実行しておく
+  vim.cmd("LspStart")
 end
 
 return {
