@@ -163,6 +163,20 @@ require("lazy").setup({
     end
   },
   {
+    "jackMort/ChatGPT.nvim",
+    cmd = { "ChatGPT", "ChatGPTEditWithInstructions", "ChatGPTRun" },
+    config = function()
+      require("chatgpt").setup({
+        api_key_cmd = 'op read op://Personal/zm2a2f5z5hbe3jmt6upzg3rbom/credential'
+      })
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  },
+  {
     "hashivim/vim-terraform",
   },
   {
