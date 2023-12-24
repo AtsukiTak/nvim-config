@@ -26,6 +26,10 @@ end
 
 local function setup_lsp()
   require("lspconfig").rust_analyzer.setup {
+    -- rust-analyzerはstableのみサポートしているため、プロジェクトでstable以外のバージョンを使っている場合は
+    -- rust-analyzerの起動ができない。そのため、rust-analyzerの起動時にRUSTUP_TOOLCHAIN=stableを設定する。
+    -- これは使用しているrustのバージョンにかかわらず、rust-analyzerの対象にはstableを使うという意味。
+    cmd = { "env", "RUSTUP_TOOLCHAIN=stable", "rust-analyzer" },
     settings = {
       ["rust-analyzer"] = {
         cargo = {
