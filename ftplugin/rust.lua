@@ -14,9 +14,6 @@ lazy.load({
   }
 })
 
--- 保存時にrustfmtを実行する
-vim.g.rustfmt_autosave = 1
-
 -- keymap
 -- Lazy.nvimのconfigでkeymapを設定すると、pluginがloadされたbufferにしか設定されない。
 -- そのため、ここで設定する。
