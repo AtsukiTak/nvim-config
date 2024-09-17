@@ -17,9 +17,15 @@ local function setup_lsp()
       vim.keymap.set('n', 'gd', open_definition, opts)
     end
   }
+
+  -- Biome(formatter)の設定
+  -- "@biomejs/biome" がインストールされていることが前提
+  require'lspconfig'.biome.setup{}
+
   -- :LspStart の実行
   -- 本来これがなくてもLSPが起動するはずだが、なぜか起動しないので一応実行しておく
   vim.cmd("LspStart")
+
 end
 
 return {

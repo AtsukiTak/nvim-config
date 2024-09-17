@@ -16,4 +16,5 @@ lazy.load({
 -- keymap
 -- Lazy.nvimのconfigでkeymapを設定すると、pluginがloadされたbufferにしか設定されない。
 -- そのため、ここで設定する。
+local opts = { noremap=true, silent=true, buffer=true }
 vim.keymap.set('n', 'qq', ':PrettierAsync<CR>', opts)
