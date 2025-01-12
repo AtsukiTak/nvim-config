@@ -25,7 +25,6 @@ local function setup_lsp()
   -- :LspStart の実行
   -- 本来これがなくてもLSPが起動するはずだが、なぜか起動しないので一応実行しておく
   vim.cmd("LspStart")
-
 end
 
 return {
