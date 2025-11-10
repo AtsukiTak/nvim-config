@@ -41,10 +41,7 @@ vim.api.nvim_set_keymap('', '<C-j>', '<ESC>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<leader>a"', 'ciw""<ESC>P', kmap_opts) -- カーソル下の単語をダブルクォートで囲む
 vim.api.nvim_set_keymap('n', "<leader>a'", "ciw''<ESC>P", kmap_opts) -- カーソル下の単語をシングルクォートで囲む
 
--- wgsl filetypeの追加
-vim.filetype.add({extension = {wgsl = "wgsl"}})
-
--- Lazy.nvimの設定
+-- Lazy.nvimの導入
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -133,15 +130,6 @@ require("lazy").setup({
     end
   },
   {
-    "github/copilot.vim",
-    config = function()
-      vim.g.copilot_node_command = '/Users/takahashiatsuki/.nodenv/versions/20.7.0/bin/node'
-      -- 新しいBufferが開かれた時に `:Copilot status` を実行する
-      -- 本来これは不要なはずだが、なぜか新規Bufferを開いた時にcopilotがattachされないので実行する.
-      vim.cmd[[au BufRead,BufNewFile * Copilot status]]
-    end
-  },
-  {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.3",
     dependencies = {
@@ -156,9 +144,6 @@ require("lazy").setup({
       vim.api.nvim_set_keymap('n', '<leader>fB', '<cmd>Telescope file_browser<CR>', kmap_opts)
       vim.api.nvim_set_keymap('n', '<leader>lg', '<cmd>Telescope live_grep<CR>', kmap_opts)
     end
-  },
-  {
-    "hashivim/vim-terraform",
   },
   {
     "neovim/nvim-lspconfig",
