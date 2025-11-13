@@ -34,6 +34,7 @@ vim.api.nvim_set_keymap('n', '<leader>tH', ':tabmove -1<CR>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>w', kmap_opts)
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>W', kmap_opts)
 vim.api.nvim_set_keymap('n', '=', '<C-w>=', kmap_opts)
+vim.keymap.set("n", "<leader>fw", require("floating").show, kmap_opts)
 -- buffer管理系
 local bufcycle = require("bufcycle") -- 自作のluaスクリプト
 local terminal = require("terminal")
@@ -62,6 +63,7 @@ vim.keymap.set('n', '<C-q>', function()
 end, kmap_opts)
 -- terminal系
 vim.keymap.set('t', '<C-t>', [[<C-\><C-n>]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-t>c', ':terminal<CR>i', kmap_opts)
 -- lsp系
 vim.keymap.set('n', '<C-f>', vim.diagnostic.open_float, kmap_opts)
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, kmap_opts)
