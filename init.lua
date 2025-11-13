@@ -36,10 +36,30 @@ vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>W', kmap_opts)
 vim.api.nvim_set_keymap('n', '=', '<C-w>=', kmap_opts)
 -- buffer管理系
 local bufcycle = require("bufcycle") -- 自作のluaスクリプト
+local terminal = require("terminal")
 vim.keymap.set('n', '<C-n>', bufcycle.next_file_buffer, kmap_opts)
 vim.keymap.set('n', '<C-p>', bufcycle.prev_file_buffer, kmap_opts)
 vim.keymap.set('n', '<C-t>n', bufcycle.next_terminal, kmap_opts)
 vim.keymap.set('n', '<C-t>p', bufcycle.prev_terminal, kmap_opts)
+vim.keymap.set('n', '<C-q>', function()
+  local buf = vim.api.nvim_get_current_buf()
+  local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
+
+  if bt == "terminal" then
+    local busy, err = terminal.is_terminal_busy(buf)
+    if busy == nil then
+      vim.notify("Failed to inspect terminal: " .. (err or "unknown error"), vim.log.levels.WARN)
+      return
+    end
+    if busy then
+      vim.notify("Terminal is still running; buffer not closed", vim.log.levels.WARN)
+      return
+    end
+  end
+
+  -- windowを閉じずにbufferを削除
+  require("mini.bufremove").delete()
+end, kmap_opts)
 -- terminal系
 vim.keymap.set('t', '<C-t>', [[<C-\><C-n>]], { noremap = true })
 -- lsp系
@@ -54,14 +74,10 @@ vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', kmap
 vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<leader>fB', '<cmd>Telescope file_browser<CR>', kmap_opts)
 vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', kmap_opts)
-vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Telescope buffers', kmap_opts)
--- bufremove
-vim.keymap.set('n', '<C-q>', function()
-  require("mini.bufremove").delete()
-end, kmap_opts)
+vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Telescope buffers<CR>', kmap_opts)
 
 -- カスタムコマンド
-vim.api.nvim_create_user_command("SClose", function()
+vim.api.nvim_create_user_command("Sqa", function()
   require("safeclose").safe_close()
 end, {})
 
@@ -185,6 +201,40 @@ require("lazy").setup({
     "sindrets/diffview.nvim",
   },
   {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local map = function(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+        end
+
+        -- ハンク移動
+        map("n", "]c", function() if vim.wo.diff then return "]c" end gs.nav_hunk("next") end,  "Next hunk")
+        map("n", "[c", function() if vim.wo.diff then return "[c" end gs.nav_hunk("prev") end,  "Prev hunk")
+
+        -- ★ このハンクだけステージ／戻す／やり直す
+        map("n", "<leader>hs", gs.stage_hunk,       "Stage hunk")
+        map("n", "<leader>hr", gs.reset_hunk,       "Reset hunk (変更を破棄)")
+        map("n", "<leader>hu", gs.undo_stage_hunk,  "Undo last stage hunk")
+
+        -- 選択範囲だけ（ハンクの一部でもOK）
+        map({ "v" }, "<leader>hs", function() gs.stage_hunk({vim.fn.line("."), vim.fn.line("v")}) end, "Stage selection")
+        map({ "v" }, "<leader>hr", function() gs.reset_hunk({vim.fn.line("."), vim.fn.line("v")}) end, "Reset selection")
+
+        -- 便利系
+        map("n", "<leader>hp", gs.preview_hunk,     "Preview hunk")
+        map("n", "<leader>hb", gs.blame_line,       "Blame line")
+        map("n", "<leader>hS", gs.stage_buffer,     "Stage buffer")
+        map("n", "<leader>hR", gs.reset_buffer,     "Reset buffer")
+        map("n", "<leader>hd", gs.diffthis,         "Diff this")
+        map("n", "<leader>hD", function() gs.diffthis("~") end, "Diff vs HEAD")
+        map("n", "<leader>ht", gs.toggle_deleted,   "Toggle deleted")
+        map("n", "<leader>hh", gs.select_hunk,      "Select hunk (VISUALに入る)")
+      end,
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
   },
   {
@@ -207,3 +257,31 @@ require("lazy").setup({
   }
 })
 
+-- ターミナル終了時に、そのウィンドウで空バッファを開き、元のターミナルバッファは消す
+local grp = vim.api.nvim_create_augroup("TerminalToBlankOnExit", { clear = true })
+vim.api.nvim_create_autocmd("TermClose", {
+  group = grp,
+  callback = function(args)
+    -- このターミナルを表示している全ウィンドウを取得
+    local wins = vim.fn.win_findbuf(args.buf) or {}
+    for _, win in ipairs(wins) do
+      -- 各ウィンドウのコンテキストで空バッファを開く（ウィンドウは残す）
+      vim.api.nvim_win_call(win, function()
+        vim.cmd.enew()                          -- 新規(空)バッファ
+        vim.bo.buftype   = "nofile"             -- スクラッチ化
+        vim.bo.bufhidden = "hide"
+        vim.bo.swapfile  = false
+        vim.bo.buflisted = false
+        vim.bo.modifiable = true
+        vim.bo.readonly   = false
+        vim.bo.filetype   = ""
+        -- 必要ならプレースホルダ文字を入れてもOK: vim.api.nvim_buf_set_lines(0, 0, -1, false, {""})
+      end)
+    end
+
+    -- 置き換えが済んだら、元のターミナルバッファを消す（ウィンドウは消えない）
+    vim.schedule(function()
+      pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
+    end)
+  end,
+})

@@ -19,13 +19,8 @@ local function index_of(t, val)
 end
 
 local function jump_to_buffer(bufnr)
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_get_buf(win) == bufnr then
-      vim.api.nvim_set_current_win(win)
-      return
-    end
-  end
-  vim.api.nvim_set_current_buf(bufnr)
+  local target_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(target_win, bufnr)
 end
 
 local function cycle(list, delta)
@@ -93,4 +88,3 @@ function M.prev_terminal()
 end
 
 return M
-

@@ -1,3 +1,5 @@
+local terminal = require("terminal")
+
 local M = {}
 
 function M.safe_close()
@@ -14,10 +16,8 @@ function M.safe_close()
       local is_terminal = (bt == "terminal")
       local is_running = false
       if is_terminal then
-        local job_id = vim.b[buf].terminal_job_id
-        if job_id and vim.fn.jobwait({ job_id }, 0)[1] == -1 then
-          is_running = true
-        end
+        local busy, _ = terminal.is_terminal_busy(buf)
+        is_running = busy or false
       end
 
       -- 閉じない条件:
@@ -34,4 +34,3 @@ function M.safe_close()
 end
 
 return M
-
