@@ -29,7 +29,7 @@ local function open_backdrop()
 end
 
 M.show = function()
-  local width = math.floor(vim.o.columns * 0.8)
+  local width = math.floor(vim.o.columns * 0.5)
   local height = math.floor(vim.o.lines * 0.8)
 
   local backdrop_win = open_backdrop()
