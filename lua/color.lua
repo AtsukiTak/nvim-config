@@ -8,7 +8,7 @@ local function setup_highlight()
 
   -- ターミナルバッファの背景色
   vim.api.nvim_set_hl(0, "TermBgView", { bg = "#323232" })
-  vim.api.nvim_set_hl(0, "TermBgEdit", { bg = "#2a2a2a" })
+  vim.api.nvim_set_hl(0, "TermBgEdit", { bg = "#232323" })
 end
 
 -- ターミナルバッファ関連の設定
