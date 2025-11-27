@@ -47,7 +47,10 @@ vim.keymap.set('n', '<C-t>p', bufcycle.prev_terminal, kmap_opts)
 vim.keymap.set('n', '<C-q>', function()
   local buf = vim.api.nvim_get_current_buf()
   local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
-  if bt == "terminal" then terminal.remove_terminal_if_idle(buf) end
+  if bt == "terminal" then
+    terminal.remove_terminal_if_idle(buf)
+    return
+  end
   -- windowを閉じずにbufferを削除
   require("mini.bufremove").delete()
 end, kmap_opts)
