@@ -29,19 +29,42 @@ function M.setup()
   -- buffer管理系
   vim.keymap.set('n', '<C-n>', '<cmd>bnext<CR>', kmap_opts)
   vim.keymap.set('n', '<C-p>', '<cmd>bprevious<CR>', kmap_opts)
-  vim.keymap.set('n', '<C-f>n', bufcycle.next_filte_buffer, kmap_opts)
-  vim.keymap.set('n', '<C-f>p', bufcycle.prev_filte_buffer, kmap_opts)
+  vim.keymap.set('n', '<C-f>n', bufcycle.next_file_buffer, kmap_opts)
+  vim.keymap.set('n', '<C-f>p', bufcycle.prev_file_buffer, kmap_opts)
   vim.keymap.set('n', '<C-t>n', bufcycle.next_terminal, kmap_opts)
   vim.keymap.set('n', '<C-t>p', bufcycle.prev_terminal, kmap_opts)
+
+  -- buffer close without window close
+  -- 1. file bufferの場合、次のfile bufferを表示
+  -- 2. terminal bufferの場合、次のterminal bufferを表示
   vim.keymap.set('n', '<C-q>', function()
     local buf = vim.api.nvim_get_current_buf()
     local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
-    if bt == "terminal" then
-      terminal.remove_terminal_if_idle(buf)
+
+    -- windowを閉じずにbufferを削除し、次のfile bufferを表示
+    if bt == "" then
+      require("mini.bufremove").delete()
+      bufcycle.next_file_buffer()
       return
     end
-    -- windowを閉じずにbufferを削除
-    require("mini.bufremove").delete()
+
+    -- windowを閉じずにbufferを削除し、次のterminal bufferを表示
+    if bt == "terminal" then
+      local busy, err = terminal.is_terminal_busy(bufnr)
+      if busy == nil then
+        vim.notify("Failed to inspect terminal: " .. (err or "unknown error"), vim.log.levels.WARN)
+        return
+      end
+      if busy then
+        vim.notify("Terminal is still running; buffer not closed", vim.log.levels.WARN)
+        return
+      end
+      require("mini.bufremove").delete()
+      bufcycle.next_terminal()
+      return
+    end
+
+    -- それ以外のbuftypeでは何もしない
   end, kmap_opts)
 
   -- terminal系
