@@ -41,8 +41,22 @@ local function is_terminal_idle(bufnr)
   return not busy
 end
 
+--- terminalがidle状態の時のみcloseする
+local function remove_terminal_if_idle(bufnr)
+  local busy, err = is_terminal_busy(buf)
+  if busy == nil then
+    vim.notify("Failed to inspect terminal: " .. (err or "unknown error"), vim.log.levels.WARN)
+    return
+  end
+  if busy then
+    vim.notify("Terminal is still running; buffer not closed", vim.log.levels.WARN)
+    return
+  end
+end
+
 return {
   is_terminal_busy = is_terminal_busy,
   is_terminal_idle = is_terminal_idle,
+  remove_terminal_if_idle = remove_terminal_if_idle,
 }
 

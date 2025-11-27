@@ -45,19 +45,7 @@ vim.keymap.set('n', '<C-t>p', bufcycle.prev_terminal, kmap_opts)
 vim.keymap.set('n', '<C-q>', function()
   local buf = vim.api.nvim_get_current_buf()
   local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
-
-  if bt == "terminal" then
-    local busy, err = terminal.is_terminal_busy(buf)
-    if busy == nil then
-      vim.notify("Failed to inspect terminal: " .. (err or "unknown error"), vim.log.levels.WARN)
-      return
-    end
-    if busy then
-      vim.notify("Terminal is still running; buffer not closed", vim.log.levels.WARN)
-      return
-    end
-  end
-
+  if bt == "terminal" then terminal.remove_terminal_if_idle(buf) end
   -- windowを閉じずにbufferを削除
   require("mini.bufremove").delete()
 end, kmap_opts)
