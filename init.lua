@@ -38,8 +38,10 @@ vim.keymap.set("n", "<leader>fw", require("floating").show, kmap_opts)
 -- buffer管理系
 local bufcycle = require("bufcycle") -- 自作のluaスクリプト
 local terminal = require("terminal")
-vim.keymap.set('n', '<C-n>', bufcycle.next_file_buffer, kmap_opts)
-vim.keymap.set('n', '<C-p>', bufcycle.prev_file_buffer, kmap_opts)
+vim.keymap.set('n', '<C-n>', '<cmd>bnext<CR>', kmap_opts)
+vim.keymap.set('n', '<C-p>', '<cmd>bprevious<CR>', kmap_opts)
+vim.keymap.set('n', '<C-f>n', bufcycle.next_filte_buffer, kmap_opts)
+vim.keymap.set('n', '<C-f>p', bufcycle.prev_filte_buffer, kmap_opts)
 vim.keymap.set('n', '<C-t>n', bufcycle.next_terminal, kmap_opts)
 vim.keymap.set('n', '<C-t>p', bufcycle.prev_terminal, kmap_opts)
 vim.keymap.set('n', '<C-q>', function()
