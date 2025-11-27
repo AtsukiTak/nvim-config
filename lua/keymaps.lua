@@ -21,8 +21,10 @@ function M.setup()
   vim.api.nvim_set_keymap('n', '<leader>tH', ':tabmove -1<CR>', kmap_opts)
 
   -- window管理系
-  vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>w', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>W', kmap_opts)
+  vim.api.nvim_set_keymap('n', '<C-a><Tab>', '<C-w>w', kmap_opts)
+  vim.api.nvim_set_keymap('n', '<C-a><S-Tab>', '<C-w>W', kmap_opts)
+  vim.api.nvim_set_keymap('t', '<C-a><Tab>', [[<C-\><C-n><C-w>w]], kmap_opts)
+  vim.api.nvim_set_keymap('t', '<C-a><S-Tab>', [[<C-\><C-n><C-w>W]], kmap_opts)
   vim.api.nvim_set_keymap('n', '=', '<C-w>=', kmap_opts)
   vim.keymap.set("n", "<leader>fw", floating.show, kmap_opts)
 
