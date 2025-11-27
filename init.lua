@@ -17,45 +17,19 @@ vim.o.showcmd = false
 vim.o.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize' -- セッション保存
 vim.o.showtabline = 2
 
--- Keymap
+-- Keymapのセットアップ
 require("keymaps").setup()
 
--- カスタムコマンド
+-- カスタムコマンドのセットアップ
 vim.api.nvim_create_user_command("Sqa", function()
   require("safeclose").safe_close()
 end, {})
 
--- Color
+-- Colorのセットアップ
 require("color").setup()
 
--- Plugin
+-- Pluginのセットアップ
 require("plugins").setup()
 
--- ターミナル終了時に、そのウィンドウで空バッファを開き、元のターミナルバッファは消す
-local grp = vim.api.nvim_create_augroup("TerminalToBlankOnExit", { clear = true })
-vim.api.nvim_create_autocmd("TermClose", {
-  group = grp,
-  callback = function(args)
-    -- このターミナルを表示している全ウィンドウを取得
-    local wins = vim.fn.win_findbuf(args.buf) or {}
-    for _, win in ipairs(wins) do
-      -- 各ウィンドウのコンテキストで空バッファを開く（ウィンドウは残す）
-      vim.api.nvim_win_call(win, function()
-        vim.cmd.enew()                          -- 新規(空)バッファ
-        vim.bo.buftype   = "nofile"             -- スクラッチ化
-        vim.bo.bufhidden = "hide"
-        vim.bo.swapfile  = false
-        vim.bo.buflisted = false
-        vim.bo.modifiable = true
-        vim.bo.readonly   = false
-        vim.bo.filetype   = ""
-        -- 必要ならプレースホルダ文字を入れてもOK: vim.api.nvim_buf_set_lines(0, 0, -1, false, {""})
-      end)
-    end
-
-    -- 置き換えが済んだら、元のターミナルバッファを消す（ウィンドウは消えない）
-    vim.schedule(function()
-      pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
-    end)
-  end,
-})
+-- Terminal buffer関連のセットアップ
+require("terminal").setup()

@@ -15,28 +15,24 @@ end
 local function setup_termbuf()
   local term_mode_grp = vim.api.nvim_create_augroup('TermModeColors', { clear = true })
 
-  -- ターミナルバッファを開いた時はTermBgViewを設定
-  vim.api.nvim_create_autocmd("TermOpen", {
-    group = gterm_mode_grprp,
-    pattern = "*",
-    callback = function()
-      vim.opt_local.winhighlight = "Normal:TermBgView"
-    end,
-  })
-
-  -- ターミナルモードに入った時はTermBgEditを設定
-  vim.api.nvim_create_autocmd("TermEnter", {
-    group = gterm_mode_grprp,
-    pattern = "*",
-    callback = function() vim.opt_local.winhighlight = "Normal:TermBgEdit" end,
-  })
-
-  -- ターミナルモードから出た時はTermBgViewを設定
-  vim.api.nvim_create_autocmd("TermLeave", {
-    group = gterm_mode_grprp,
-    pattern = "*",
-    callback = function() vim.opt_local.winhighlight = "Normal:TermBgView" end,
-  })
+  vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter', 'TermOpen', 'TermEnter', 'TermLeave' }, {
+  group = term_grp,
+  callback = function()
+    -- ターミナルバッファの場合
+    if vim.bo.buftype == 'terminal' then
+      local mode = vim.api.nvim_get_mode().mode
+      -- :terminal modelのとき
+      if mode == 't' then
+        vim.opt_local.winhighlight = "Normal:TermBgEdit"
+      else
+        vim.opt_local.winhighlight = "Normal:TermBgView"
+      end
+    else
+      -- 通常のファイルバッファの場合、設定をクリア
+      vim.opt_local.winhighlight = ""
+    end
+  end,
+})
 end
 
 local function setup()

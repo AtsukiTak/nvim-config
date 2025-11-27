@@ -64,6 +64,7 @@ function M.next_file_buffer()
   if not ok then
     vim.notify("No file buffers found", vim.log.levels.ERROR)
   end
+  return ok
 end
 
 function M.prev_file_buffer()
@@ -71,6 +72,7 @@ function M.prev_file_buffer()
   if not ok then
     vim.notify("No file buffers found", vim.log.levels.ERROR)
   end
+  return ok
 end
 
 function M.next_terminal()
@@ -78,6 +80,7 @@ function M.next_terminal()
   if not ok then
     vim.notify("No terminal buffers found", vim.log.levels.ERROR)
   end
+  return ok
 end
 
 function M.prev_terminal()
@@ -85,6 +88,7 @@ function M.prev_terminal()
   if not ok then
     vim.notify("No terminal buffers found", vim.log.levels.ERROR)
   end
+  return ok
 end
 
 return M

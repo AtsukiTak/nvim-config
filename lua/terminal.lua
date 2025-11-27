@@ -1,9 +1,11 @@
+local M = {}
+
 --- terminal の shell が busy か（外部コマンド実行中か）を判定する
 --- 戻り値:
 ---   true  = busy（コマンド実行中）
 ---   false = idle（プロンプト表示中）
 ---   nil, err = エラー（terminal じゃない等）
-local function is_terminal_busy(bufnr)
+function M.is_terminal_busy(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
   local shell_pid = vim.b[bufnr].terminal_job_pid
@@ -33,7 +35,7 @@ local function is_terminal_busy(bufnr)
 end
 
 --- idle 判定（busy の反転）
-local function is_terminal_idle(bufnr)
+function M.is_terminal_idle(bufnr)
   local busy, err = is_terminal_busy(bufnr)
   if busy == nil then
     return nil, err
@@ -41,21 +43,44 @@ local function is_terminal_idle(bufnr)
   return not busy
 end
 
---- terminalがidle状態の時のみcloseする
-local function remove_terminal_if_idle(bufnr)
-  local busy, err = is_terminal_busy(bufnr)
-  if busy == nil then
-    vim.notify("Failed to inspect terminal: " .. (err or "unknown error"), vim.log.levels.WARN)
-    return
-  end
-  if busy then
-    vim.notify("Terminal is still running; buffer not closed", vim.log.levels.WARN)
-    return
-  end
+-- terminal buffer関連のセットアップ
+function M.setup()
+
+  local grp = vim.api.nvim_create_augroup("TerminalToBlankOnExit", { clear = true })
+  vim.api.nvim_create_autocmd("TermClose", {
+    group = grp,
+    callback = function(args)
+      -- エラー等でバッファが無効なら何もしない
+      if not vim.api.nvim_buf_is_valid(args.buf) then return end
+
+      -- このターミナルを表示している全ウィンドウを取得
+      local wins = vim.fn.win_findbuf(args.buf) or {}
+
+      -- 1. 代わりとなる空のスクラッチバッファを「1つだけ」作成する
+      --    (false: unlisted, true: scratch buffer)
+      local new_buf = vim.api.nvim_create_buf(false, true)
+
+      -- 新しいバッファの設定（ユーザーの好みに合わせる）
+      vim.bo[new_buf].bufhidden = "wipe"      -- 隠れたら消す（ゴミを残さない）
+      vim.bo[new_buf].buftype = "nofile"
+      vim.bo[new_buf].swapfile = false
+      vim.bo[new_buf].modifiable = true
+
+      -- 2. 対象の全ウィンドウに対し、強制的に新しいバッファをセットする
+      for _, win in ipairs(wins) do
+        if vim.api.nvim_win_is_valid(win) then
+          vim.api.nvim_win_set_buf(win, new_buf)
+        end
+      end
+
+      -- 3. 元のターミナルバッファを削除する
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(args.buf) then
+          pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
+        end
+      end)
+    end,
+  })
 end
 
-return {
-  is_terminal_busy = is_terminal_busy,
-  is_terminal_idle = is_terminal_idle,
-  remove_terminal_if_idle = remove_terminal_if_idle,
-}
+return M
