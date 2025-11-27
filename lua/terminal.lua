@@ -46,6 +46,13 @@ end
 -- terminal buffer関連のセットアップ
 function M.setup()
 
+  -- Neovim がデフォルトで設定している TermClose の autocommand を消す
+  pcall(vim.api.nvim_clear_autocmds, {
+    group = "nvim.terminal",
+    event = "TermClose",
+  })
+
+  -- terminal bufferでexitしたときにwindowを削除しない
   local grp = vim.api.nvim_create_augroup("TerminalToBlankOnExit", { clear = true })
   vim.api.nvim_create_autocmd("TermClose", {
     group = grp,
