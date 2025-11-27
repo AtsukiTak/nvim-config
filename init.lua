@@ -71,6 +71,9 @@ vim.api.nvim_create_user_command("Sqa", function()
   require("safeclose").safe_close()
 end, {})
 
+-- Color
+require("color").setup()
+
 -- Lazy.nvimの導入
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
