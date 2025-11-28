@@ -88,6 +88,24 @@ function M.setup()
       end)
     end,
   })
+
+  -- window / buffer 移動で terminal buffer に入ったら必ず terminal mode にする
+  local insert_grp = vim.api.nvim_create_augroup("TerminalAutoInsert", { clear = true })
+  vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+    group = insert_grp,
+    callback = function(args)
+      if vim.bo[args.buf].buftype ~= "terminal" then
+        return
+      end
+
+      -- 画面更新後に実行したいので遅延させる
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(args.buf) and vim.bo[args.buf].buftype == "terminal" then
+          vim.cmd("startinsert")
+        end
+      end)
+    end,
+  })
 end
 
 return M
