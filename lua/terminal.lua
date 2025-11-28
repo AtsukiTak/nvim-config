@@ -36,7 +36,7 @@ end
 
 --- idle 判定（busy の反転）
 function M.is_terminal_idle(bufnr)
-  local busy, err = is_terminal_busy(bufnr)
+  local busy, err = M.is_terminal_busy(bufnr)
   if busy == nil then
     return nil, err
   end
