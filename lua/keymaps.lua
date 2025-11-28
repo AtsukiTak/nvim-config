@@ -29,12 +29,12 @@ function M.setup()
   vim.keymap.set("n", "<leader>fw", floating.show, kmap_opts)
 
   -- buffer管理系
-  vim.keymap.set('n', '<C-n>', '<cmd>bnext<CR>', kmap_opts)
-  vim.keymap.set('n', '<C-p>', '<cmd>bprevious<CR>', kmap_opts)
-  vim.keymap.set('n', '<C-f>n', bufcycle.next_file_buffer, kmap_opts)
-  vim.keymap.set('n', '<C-f>p', bufcycle.prev_file_buffer, kmap_opts)
-  vim.keymap.set('n', '<C-t>n', bufcycle.next_terminal, kmap_opts)
-  vim.keymap.set('n', '<C-t>p', bufcycle.prev_terminal, kmap_opts)
+  vim.keymap.set('n', '<C-n>', bufcycle.next_file_buffer, kmap_opts)
+  vim.keymap.set('n', '<C-p>', bufcycle.prev_file_buffer, kmap_opts)
+  vim.keymap.set('n', '<C-a>n', bufcycle.next_terminal, kmap_opts)
+  vim.keymap.set('n', '<C-a>p', bufcycle.prev_terminal, kmap_opts)
+  vim.keymap.set('t', '<C-a>n', bufcycle.next_terminal, kmap_opts)
+  vim.keymap.set('t', '<C-a>p', bufcycle.prev_terminal, kmap_opts)
 
   -- buffer close without window close
   -- 1. file bufferの場合、次のfile bufferを表示
@@ -71,7 +71,7 @@ function M.setup()
 
   -- terminal系
   vim.keymap.set('t', '<C-t>', [[<C-\><C-n>]], { noremap = true })
-  vim.api.nvim_set_keymap('n', '<C-t>c', ':terminal<CR>i', kmap_opts)
+  vim.api.nvim_set_keymap('n', '<C-a>t', ':terminal<CR>i', kmap_opts)
 
   -- lsp系
   vim.keymap.set('n', '<C-f>', vim.diagnostic.open_float, kmap_opts)
