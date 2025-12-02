@@ -9,23 +9,23 @@ function M.setup()
   local floating = require("floating")
 
   -- カーソル移動系
-  vim.api.nvim_set_keymap('', '<S-h>', '^', kmap_opts)
-  vim.api.nvim_set_keymap('', '<S-l>', '$', kmap_opts)
-  vim.api.nvim_set_keymap('', '<C-e>', '$', kmap_opts)
+  vim.keymap.set({ 'n', 'v', 's', 'o' }, '<S-h>', '^', kmap_opts)
+  vim.keymap.set({ 'n', 'v', 's', 'o' }, '<S-l>', '$', kmap_opts)
+  vim.keymap.set({ 'n', 'v', 's', 'o' }, '<C-e>', '$', kmap_opts)
 
   -- tab管理系
-  vim.api.nvim_set_keymap('n', '<leader>tc', ':tabnew<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>tl', ':tabnext<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>th', ':tabprevious<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>tL', ':tabmove +1<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>tH', ':tabmove -1<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>tc', ':tabnew<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>tl', ':tabnext<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>th', ':tabprevious<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>tL', ':tabmove +1<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>tH', ':tabmove -1<CR>', kmap_opts)
 
   -- window管理系
-  vim.api.nvim_set_keymap('n', '<C-a><Tab>', '<C-w>w', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<C-a><S-Tab>', '<C-w>W', kmap_opts)
-  vim.api.nvim_set_keymap('t', '<C-a><Tab>', [[<C-\><C-n><C-w>w]], kmap_opts)
-  vim.api.nvim_set_keymap('t', '<C-a><S-Tab>', [[<C-\><C-n><C-w>W]], kmap_opts)
-  vim.api.nvim_set_keymap('n', '=', '<C-w>=', kmap_opts)
+  vim.keymap.set('n', '<C-a><Tab>', '<C-w>w', kmap_opts)
+  vim.keymap.set('n', '<C-a><S-Tab>', '<C-w>W', kmap_opts)
+  vim.keymap.set('t', '<C-a><Tab>', [[<C-\><C-n><C-w>w]], kmap_opts)
+  vim.keymap.set('t', '<C-a><S-Tab>', [[<C-\><C-n><C-w>W]], kmap_opts)
+  vim.keymap.set('n', '=', '<C-w>=', kmap_opts)
   vim.keymap.set("n", "<leader>fw", floating.show, kmap_opts)
 
   -- buffer管理系
@@ -71,7 +71,7 @@ function M.setup()
 
   -- terminal系
   vim.keymap.set('t', '<C-t>', [[<C-\><C-n>]], { noremap = true })
-  vim.api.nvim_set_keymap('n', '<C-a>t', ':terminal<CR>i', kmap_opts)
+  vim.keymap.set('n', '<C-a>t', ':terminal<CR>i', kmap_opts)
 
   -- lsp系
   vim.keymap.set('n', '<C-f>', vim.diagnostic.open_float, kmap_opts)
@@ -79,15 +79,15 @@ function M.setup()
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, kmap_opts)
 
   -- ESC
-  vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>', kmap_opts)
-  vim.api.nvim_set_keymap('', '<C-j>', '<ESC>', kmap_opts)
+  vim.keymap.set('i', '<C-j>', '<ESC>', kmap_opts)
+  vim.keymap.set({ 'n', 'v', 's', 'o' }, '<C-j>', '<ESC>', kmap_opts)
 
   -- Telescope
-  vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>fB', '<cmd>Telescope file_browser<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', kmap_opts)
-  vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Telescope buffers<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>fb', '<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>fB', '<cmd>Telescope file_browser<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', kmap_opts)
+  vim.keymap.set('n', '<leader>b', '<cmd>Telescope buffers<CR>', kmap_opts)
 end
 
 return M
