@@ -73,6 +73,7 @@ function M.setup()
   vim.keymap.set('t', '<C-a><ESC>', [[<C-\><C-n>]], { noremap = true })
   vim.keymap.set('n', '<C-a>c', ':terminal<CR>i', kmap_opts)
   vim.keymap.set('t', '<C-a>c', [[<C-\><C-n>:terminal<CR>i]], kmap_opts)
+  vim.keymap.set('t', '<C-a>a', [[<C-a>]], kmap_opts)
 
   -- lsp系
   vim.keymap.set('n', '<C-f>', vim.diagnostic.open_float, kmap_opts)
