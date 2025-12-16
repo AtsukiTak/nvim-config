@@ -70,7 +70,7 @@ function M.setup()
   end, kmap_opts)
 
   -- terminal系
-  vim.keymap.set('t', '<C-a><ESC>', [[<C-\><C-n>]], { noremap = true })
+  vim.keymap.set('t', '<C-a><C-[>', [[<C-\><C-n>]], { noremap = true })
   vim.keymap.set('n', '<C-a>c', ':terminal<CR>i', kmap_opts)
   vim.keymap.set('t', '<C-a>c', [[<C-\><C-n>:terminal<CR>i]], kmap_opts)
   vim.keymap.set('t', '<C-a>a', [[<C-a>]], kmap_opts)
