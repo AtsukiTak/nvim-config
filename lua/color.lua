@@ -7,8 +7,7 @@ local function setup_highlight()
   vim.api.nvim_set_hl(0, "@text.danger", { link = "ErrorMsg" })
 
   -- ターミナルバッファの背景色
-  vim.api.nvim_set_hl(0, "TermBgView", { bg = "#232323" })
-  vim.api.nvim_set_hl(0, "TermBgEdit", { bg = "#121212" })
+  vim.api.nvim_set_hl(0, "TermBg", { bg = "#121212" })
 end
 
 -- ターミナルバッファ関連の設定
@@ -20,13 +19,7 @@ local function setup_termbuf()
   callback = function()
     -- ターミナルバッファの場合
     if vim.bo.buftype == 'terminal' then
-      local mode = vim.api.nvim_get_mode().mode
-      -- :terminal modelのとき
-      if mode == 't' then
-        vim.opt_local.winhighlight = "Normal:TermBgEdit"
-      else
-        vim.opt_local.winhighlight = "Normal:TermBgView"
-      end
+      vim.opt_local.winhighlight = "Normal:TermBg"
     else
       -- 通常のファイルバッファの場合、設定をクリア
       vim.opt_local.winhighlight = ""
