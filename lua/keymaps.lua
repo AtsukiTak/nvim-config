@@ -90,6 +90,12 @@ function M.setup()
   vim.keymap.set('n', '<leader>fB', '<cmd>Telescope file_browser<CR>', kmap_opts)
   vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', kmap_opts)
   vim.keymap.set('n', '<leader>b', '<cmd>Telescope buffers<CR>', kmap_opts)
+
+  -- NvimTree
+  vim.keymap.set("n", "<leader>ntt", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+  vim.keymap.set("n", "<leader>ntf", ":NvimTreeFindFile<CR>", { desc = "Find file in file explorer" })
+  vim.keymap.set("n", "<leader>nth", ":NvimTreeResize -20<CR>", { desc = "Shrink file explorer" })
+  vim.keymap.set("n", "<leader>ntl", ":NvimTreeResize +20<CR>", { desc = "Expand file explorer" })
 end
 
 return M

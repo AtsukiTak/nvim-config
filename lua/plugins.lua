@@ -49,32 +49,50 @@ function M.setup()
       'nvim-tree/nvim-tree.lua',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
       config = function()
+        -- nvim-treeの設定
         require("nvim-tree").setup({
+          actions = {
+            open_file = {
+              window_picker = {
+                enable = true,
+              },
+            },
+          },
           view = {
             width = 30,
           },
           renderer = {
-            highlight_git = true,
+            highlight_git = "name",
             highlight_opened_files = "all",
+            icons = {
+              webdev_colors = false,
+              show = {
+                git = false,
+                folder = true,
+                file = true,
+                folder_arrow = true,
+              },
+            },
           },
         })
-        vim.keymap.set("n", "<leader>ntt", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-        vim.keymap.set("n", "<leader>ntf", ":NvimTreeFindFile<CR>", { desc = "Find file in file explorer" })
-        vim.keymap.set("n", "<leader>nth", ":NvimTreeResize -20<CR>", { desc = "Shrink file explorer" })
-        vim.keymap.set("n", "<leader>ntl", ":NvimTreeResize +20<CR>", { desc = "Expand file explorer" })
       end,
     },
     {
       -- 構文解析
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      branch = "master",
+      branch = "main",
       config = function()
-        require("nvim-treesitter.configs").setup({
-          ensure_installed = { "javascript", "json", "json5", "lua", "rust", "toml", "tsx", "typescript", "yaml" },
-          sync_install = false,
-          auto_install = true,
-          highlight = { enable = true },
+        local langs = {
+          "javascript", "json", "json5", "lua", "rust", "swift",
+          "toml", "tsx", "typescript", "yaml"
+        }
+        require("nvim-treesitter").install(langs)
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = langs,
+          callback = function()
+            vim.treesitter.start()
+          end,
         })
         vim.cmd([[set mouse=]])
         vim.opt.foldmethod = "expr"

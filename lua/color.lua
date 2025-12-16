@@ -8,6 +8,14 @@ local function setup_highlight()
 
   -- ターミナルバッファの背景色
   vim.api.nvim_set_hl(0, "TermBg", { bg = "#121212" })
+
+  -- NvimTree関連のハイライト設定
+  -- 開いているファイルの見た目を下線のみにする
+  vim.api.nvim_set_hl(0, "NvimTreeOpenedFile", { fg = "NONE", underline = true, bold = false })
+  -- 実行可能ファイルを通常と同じ見た目にする
+  vim.api.nvim_set_hl(0, "NvimTreeExecFile", { link = "NvimTreeNormal" })
+  vim.api.nvim_set_hl(0, "NvimTreeSpecialFile", { link = "NvimTreeNormal" })
+  vim.api.nvim_set_hl(0, "NvimTreeImageFile", { link = "NvimTreeNormal" })
 end
 
 -- ターミナルバッファ関連の設定
