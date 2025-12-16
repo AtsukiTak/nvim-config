@@ -7,8 +7,8 @@ local function setup_highlight()
   vim.api.nvim_set_hl(0, "@text.danger", { link = "ErrorMsg" })
 
   -- ターミナルバッファの背景色
-  vim.api.nvim_set_hl(0, "TermBgView", { bg = "#323232" })
-  vim.api.nvim_set_hl(0, "TermBgEdit", { bg = "#232323" })
+  vim.api.nvim_set_hl(0, "TermBgView", { bg = "#232323" })
+  vim.api.nvim_set_hl(0, "TermBgEdit", { bg = "#121212" })
 end
 
 -- ターミナルバッファ関連の設定
