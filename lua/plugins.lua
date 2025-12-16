@@ -17,13 +17,9 @@ function M.setup()
 
   require("lazy").setup({
     {
-      -- colorscheme
-      "sainnhe/everforest",
-      lazy = false,
-      priority = 1000,
+      "EdenEast/nightfox.nvim",
       config = function()
-        vim.g.everforest_enable_italic = true
-        vim.cmd.colorscheme("everforest")
+        vim.cmd.colorscheme("nightfox")
       end,
     },
     {
