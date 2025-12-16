@@ -43,6 +43,23 @@ function M.setup()
       "github/copilot.vim",
     },
     {
+      'nvim-tree/nvim-tree.lua',
+      dependencies = { 'nvim-tree/nvim-web-devicons' },
+      config = function()
+        require("nvim-tree").setup({
+          view = {
+            width = 30,
+          },
+          renderer = {
+            highlight_git = true,
+            highlight_opened_files = "all",
+          },
+        })
+        vim.keymap.set("n", "<C-h>t", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+        vim.keymap.set("n", "<C-h>f", ":NvimTreeFindFile<CR>", { desc = "Find file in file explorer" })
+      end,
+    },
+    {
       -- 構文解析
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
