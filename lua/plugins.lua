@@ -36,6 +36,10 @@ function M.setup()
       "nvim-lua/plenary.nvim",
     },
     {
+      -- GitHub Copilot
+      "github/copilot.vim",
+    },
+    {
       -- 構文解析
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
