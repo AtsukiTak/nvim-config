@@ -17,10 +17,17 @@ function M.setup()
 
   require("lazy").setup({
     {
-      "EdenEast/nightfox.nvim",
+      "navarasu/onedark.nvim",
+      priority = 1000, -- make sure to load this before all the other start plugins
       config = function()
-        vim.cmd.colorscheme("nightfox")
-      end,
+        require('onedark').setup {
+          style = 'darker',
+          highlights = {
+            MatchParen = { fg = '#fab387', bg = 'NONE', bold = true },
+          },
+        }
+        require('onedark').load()
+      end
     },
     {
       -- nerdfont icons
