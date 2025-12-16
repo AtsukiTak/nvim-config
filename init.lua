@@ -33,3 +33,13 @@ require("plugins").setup()
 
 -- Terminal buffer関連のセットアップ
 require("terminal").setup()
+
+-- デフォルトのlayout
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.schedule(function()
+      require("nvim-tree.api").tree.open({ find_file = true })
+      vim.cmd("wincmd p")
+    end)
+  end,
+})

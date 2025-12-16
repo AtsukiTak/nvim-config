@@ -22,6 +22,9 @@ function M.setup()
       config = function()
         require('onedark').setup {
           style = 'darker',
+          colors = {
+            bg0 = '#1a1a1a',
+          },
           highlights = {
             MatchParen = { fg = '#fab387', bg = 'NONE', bold = true },
           },
@@ -55,8 +58,10 @@ function M.setup()
             highlight_opened_files = "all",
           },
         })
-        vim.keymap.set("n", "<C-h>t", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-        vim.keymap.set("n", "<C-h>f", ":NvimTreeFindFile<CR>", { desc = "Find file in file explorer" })
+        vim.keymap.set("n", "<leader>ntt", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+        vim.keymap.set("n", "<leader>ntf", ":NvimTreeFindFile<CR>", { desc = "Find file in file explorer" })
+        vim.keymap.set("n", "<leader>nth", ":NvimTreeResize -20<CR>", { desc = "Shrink file explorer" })
+        vim.keymap.set("n", "<leader>ntl", ":NvimTreeResize +20<CR>", { desc = "Expand file explorer" })
       end,
     },
     {
@@ -96,7 +101,7 @@ function M.setup()
       dependencies = { "nvim-tree/nvim-web-devicons" },
       config = function()
         require("lualine").setup({
-          options = { theme = "everforest" },
+          options = { theme = "onedark" },
         })
       end,
     },
