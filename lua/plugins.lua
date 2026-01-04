@@ -103,7 +103,7 @@ function M.setup()
     {
       -- interactive search for files, buffers
       "nvim-telescope/telescope.nvim",
-      tag = "0.2.0",
+      tag = "v0.2.0",
       dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope-file-browser.nvim",
