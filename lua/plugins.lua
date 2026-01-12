@@ -84,7 +84,7 @@ function M.setup()
       branch = "main",
       config = function()
         local langs = {
-          "javascript", "json", "json5", "lua", "rust", "swift",
+          "javascript", "json", "json5", "lua", "python", "rust", "swift",
           "toml", "tsx", "typescript", "yaml"
         }
         require("nvim-treesitter").install(langs)
