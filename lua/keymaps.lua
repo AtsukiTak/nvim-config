@@ -7,6 +7,7 @@ function M.setup()
   local bufcycle = require("bufcycle")
   local terminal = require("terminal")
   local floating = require("floating")
+  local winpick = require("winpick")
 
   -- カーソル移動系
   vim.keymap.set({ 'n', 'v', 's', 'o' }, '<S-h>', '^', kmap_opts)
@@ -28,7 +29,7 @@ function M.setup()
   vim.keymap.set('n', '=', '<C-w>=', kmap_opts)
   vim.keymap.set("n", "<leader>fw", floating.show, kmap_opts)
   vim.keymap.set("n", "<leader>w", function()
-    local winid = require("window-picker").pick_window()
+    local winid = winpick.pick_window()
     if winid then
       vim.api.nvim_set_current_win(winid)
     end
