@@ -51,6 +51,10 @@ function M.setup()
       config = function()
         -- nvim-treeの設定
         require("nvim-tree").setup({
+          filters = {
+            dotfiles = false,
+            git_ignored = false,
+          },
           actions = {
             open_file = {
               window_picker = {

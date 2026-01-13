@@ -16,6 +16,10 @@ local function setup_highlight()
   vim.api.nvim_set_hl(0, "NvimTreeExecFile", { link = "NvimTreeNormal" })
   vim.api.nvim_set_hl(0, "NvimTreeSpecialFile", { link = "NvimTreeNormal" })
   vim.api.nvim_set_hl(0, "NvimTreeImageFile", { link = "NvimTreeNormal" })
+  -- dotfile / gitignore をグレー表示
+  vim.api.nvim_set_hl(0, "NvimTreeGitFileIgnoredHL", { fg = "#6b6b6b" })
+  vim.api.nvim_set_hl(0, "NvimTreeGitIgnoredIcon", { fg = "#6b6b6b" })
+  vim.api.nvim_set_hl(0, "NvimTreeGitFolderIgnoredHL", { fg = "#6b6b6b" })
 
   -- window-pickerプラグイン関連のハイライト設定
   vim.api.nvim_set_hl(0, "WindowPickerStatusLine", { fg = "#ededed", bg = "#4493c8", bold = true })
