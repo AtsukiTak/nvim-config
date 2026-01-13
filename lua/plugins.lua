@@ -55,6 +55,7 @@ function M.setup()
             open_file = {
               window_picker = {
                 enable = true,
+                picker = require("window-picker").pick_window
               },
             },
           },
@@ -202,6 +203,26 @@ function M.setup()
     },
     {
       "neovim/nvim-lspconfig",
+    },
+    {
+      "s1n7ax/nvim-window-picker",
+      version = "2.*",
+      config = function()
+        require("window-picker").setup({
+          hint = "statusline-winbar",
+          selection_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+          filter_rules = {
+            include_current_win = true,
+            bo = {
+              buftype = {},
+              filetype = {},
+            },
+          },
+          highlights = {
+            enabled = true,
+          },
+        })
+      end,
     },
     {
       -- New typescript language server (replacement of typescript-language-server)

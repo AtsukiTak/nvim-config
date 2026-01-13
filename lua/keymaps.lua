@@ -27,6 +27,12 @@ function M.setup()
   vim.keymap.set('t', '<C-a><S-Tab>', [[<C-\><C-n><C-w>W]], kmap_opts)
   vim.keymap.set('n', '=', '<C-w>=', kmap_opts)
   vim.keymap.set("n", "<leader>fw", floating.show, kmap_opts)
+  vim.keymap.set("n", "<leader>w", function()
+    local winid = require("window-picker").pick_window()
+    if winid then
+      vim.api.nvim_set_current_win(winid)
+    end
+  end, kmap_opts)
 
   -- buffer管理系
   vim.keymap.set('n', '<C-n>', bufcycle.next_file_buffer, kmap_opts)

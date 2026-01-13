@@ -16,6 +16,10 @@ local function setup_highlight()
   vim.api.nvim_set_hl(0, "NvimTreeExecFile", { link = "NvimTreeNormal" })
   vim.api.nvim_set_hl(0, "NvimTreeSpecialFile", { link = "NvimTreeNormal" })
   vim.api.nvim_set_hl(0, "NvimTreeImageFile", { link = "NvimTreeNormal" })
+
+  -- window-pickerプラグイン関連のハイライト設定
+  vim.api.nvim_set_hl(0, "WindowPickerStatusLine", { fg = "#ededed", bg = "#4493c8", bold = true })
+  vim.api.nvim_set_hl(0, "WindowPickerStatusLineNC", { fg = "#ededed", bg = "#4493c8", bold = true })
 end
 
 -- ターミナルバッファ関連の設定
