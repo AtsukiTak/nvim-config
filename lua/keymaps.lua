@@ -85,7 +85,7 @@ function M.setup()
   -- lsp系
   vim.keymap.set('n', '<C-f>', vim.diagnostic.open_float, kmap_opts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, kmap_opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, kmap_opts)
+  vim.keymap.set('n', 'gd', winpick.lsp_definition, kmap_opts)
 
   -- ESC
   vim.keymap.set('i', '<C-j>', '<ESC>', kmap_opts)

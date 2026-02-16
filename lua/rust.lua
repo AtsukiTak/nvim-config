@@ -42,7 +42,7 @@ local function setup_lsp()
       print("rust lsp on_attach")
       local opts = { noremap=true, silent=true, buffer=true }
       vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-      vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+      vim.keymap.set('n', 'gd', require("winpick").lsp_definition, opts)
     end
   }
   -- :LspStart の実行
