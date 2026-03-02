@@ -16,6 +16,7 @@ vim.o.list = true -- tab文字などを可視化する
 vim.o.showcmd = false
 vim.o.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize' -- セッション保存
 vim.o.showtabline = 2
+vim.o.scrollback = 2000
 
 -- Keymapのセットアップ
 require("keymaps").setup()
