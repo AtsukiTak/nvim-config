@@ -89,8 +89,8 @@ function M.setup()
       branch = "main",
       config = function()
         local langs = {
-          "javascript", "json", "json5", "lua", "python", "rust", "swift",
-          "toml", "tsx", "typescript", "yaml"
+          "javascript", "json", "json5", "lua", "markdown", "markdown_inline",
+          "python", "rust", "swift", "toml", "tsx", "typescript", "yaml"
         }
         require("nvim-treesitter").install(langs)
         vim.api.nvim_create_autocmd('FileType', {
@@ -105,6 +105,7 @@ function M.setup()
         vim.opt.foldenable = false
         vim.opt.foldlevel = 99
         vim.opt.foldtext = ""
+        vim.opt.fillchars:append("fold: ")
       end,
     },
     {

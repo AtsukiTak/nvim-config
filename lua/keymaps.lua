@@ -13,6 +13,7 @@ function M.setup()
   vim.keymap.set({ 'n', 'v', 's', 'o' }, '<S-h>', '^', kmap_opts)
   vim.keymap.set({ 'n', 'v', 's', 'o' }, '<S-l>', '$', kmap_opts)
   vim.keymap.set({ 'n', 'v', 's', 'o' }, '<C-e>', '$', kmap_opts)
+  vim.keymap.set('n', '<Space><Space>', 'za', kmap_opts)
 
   -- tab管理系
   vim.keymap.set('n', '<leader>tc', ':tabnew<CR>', kmap_opts)
