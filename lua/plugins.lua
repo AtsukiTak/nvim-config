@@ -84,28 +84,27 @@ function M.setup()
     },
     {
       -- 構文解析
-      "nvim-treesitter/nvim-treesitter",
+      "neovim-treesitter/nvim-treesitter",
+      dependencies = { "neovim-treesitter/treesitter-parser-registry" },
+      lazy = false,
       build = ":TSUpdate",
-      branch = "main",
       config = function()
         local langs = {
           "javascript", "json", "json5", "lua", "markdown", "markdown_inline",
           "python", "rust", "swift", "toml", "tsx", "typescript", "yaml"
         }
-        require("nvim-treesitter").install(langs)
+        pcall(vim.api.nvim_del_user_command, "MyTSInstall")
+        vim.api.nvim_create_user_command("MyTSInstall", function()
+          require("nvim-treesitter").install(langs, { summary = true }):wait(300000)
+        end, { desc = "Install configured Treesitter parsers" })
         vim.api.nvim_create_autocmd('FileType', {
           pattern = langs,
           callback = function()
             vim.treesitter.start()
+            vim.wo.foldmethod = "expr"
+            vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
           end,
         })
-        vim.cmd([[set mouse=]])
-        vim.opt.foldmethod = "expr"
-        vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-        vim.opt.foldenable = false
-        vim.opt.foldlevel = 99
-        vim.opt.foldtext = ""
-        vim.opt.fillchars:append("fold: ")
       end,
     },
     {

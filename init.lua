@@ -17,6 +17,9 @@ vim.o.showcmd = false
 vim.o.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize' -- セッション保存
 vim.o.showtabline = 2
 vim.o.scrollback = 2000
+vim.o.foldlevel = 99 -- 最初はfoldしない
+vim.o.foldtext = "" -- foldの表示テキストを生成しない
+vim.opt.fillchars:append("fold: ") -- fold行の残りをスペースで埋める
 
 -- Keymapのセットアップ
 require("keymaps").setup()
