@@ -42,10 +42,6 @@ function M.setup()
       "nvim-lua/plenary.nvim",
     },
     {
-      -- GitHub Copilot
-      "github/copilot.vim",
-    },
-    {
       'nvim-tree/nvim-tree.lua',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
       config = function()
